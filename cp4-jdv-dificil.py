@@ -196,15 +196,15 @@ def estrutura_jogo(modo):
     pontuacao_j1 = 0
     pontuacao_j2 = 0
 
+    turno_jogador = jogador_1
+
     while (pontuacao_j1 or pontuacao_j2) != 3: #jogo continua enquanto nenhum dos dois atingir 3 pontos
 
-        tabuleiro = inicializar_Tabuleiro()
-        imprimir_pontuacao(modo, pontuacao_j1, pontuacao_j2)
-        if pontuacao_j2 > pontuacao_j1 or (pontuacao_j1 == pontuacao_j2 and (pontuacao_j2>=1 and pontuacao_j1>=1)):
-            turno_jogador = jogador_2 
+        primeiro_jogador = turno_jogador #armazena quem joga primeiro em cada partida
 
-        else:
-            turno_jogador = jogador_1
+        tabuleiro = inicializar_Tabuleiro()
+
+        imprimir_pontuacao(modo, pontuacao_j1, pontuacao_j2)
 
         while True:
             imprimir_tabuleiro(tabuleiro)
@@ -233,6 +233,7 @@ def estrutura_jogo(modo):
             if verifica_vencedor(tabuleiro, jogador_1):
                 imprimir_tabuleiro(tabuleiro)
                 print(f'Jogador 1 ({jogador_1}) venceu!')
+                turno_jogador == jogador_1 #se jogador 1 ganhar ele começa
                 pontuacao_j1+=1
                 break
             
@@ -244,12 +245,18 @@ def estrutura_jogo(modo):
                 
                 else: #jogador x máquina
                     print(f'Máquina ({jogador_2}) venceu!')
+
+                turno_jogador == jogador_2 #se jogador 2 ganhar ele começa
                 pontuacao_j2+=1
                 break
 
             elif verifica_velha(tabuleiro):
                 imprimir_tabuleiro(tabuleiro)
                 print('Deu velha. Empate!')
+                if primeiro_jogador == jogador_1: #se o jogador 1 começou e o jogo empatou, jogador 2 começa a próxima
+                    turno_jogador = jogador_2
+                else:
+                    turno_jogador = jogador_1 #se o jogador 2 começou e o jogo empatou, jogador 1 começa a próxima
                 break
 
 def movimentos_validos(tabuleiro):
