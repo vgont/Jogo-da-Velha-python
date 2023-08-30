@@ -44,8 +44,8 @@ def imprimir_pontuacao(modo, pontuacao_1, pontuacao_2):
         print(f'Jogador 1: {pontuacao_1}')
         print(f'Jogador 2: {pontuacao_2}\n')
     else:
-        (print(f'Usuario: {pontuacao_1}'))
-        (print(f'Maquina: {pontuacao_2}\n'))
+        (print(f'Usuário: {pontuacao_1}'))
+        (print(f'Máquina: {pontuacao_2}\n'))
 
 def leia_coordenada_linha():
     '''
@@ -148,160 +148,22 @@ def modo_jogador(modo):
     '''
     Modo de jogo Usuário x Usuário
     '''
-    print('*--JOGADOR Nº1--*')
-
-    jogador_1 = figura_escolhida_jogador()
-
-    if jogador_1 == 'X':
-        jogador_2 = 'O'
-    else:
-        jogador_2 = 'X'
-
-    pontuacao_j1 = 0
-    pontuacao_j2 = 0
-
-    while (pontuacao_j1 or pontuacao_j2) != 3: #jogo continua enquanto nenhum dos dois atingir 3 pontos
-
-        tabuleiro = inicializar_Tabuleiro()
-        imprimir_pontuacao(modo, pontuacao_j1, pontuacao_j2)
-        if pontuacao_j2 > pontuacao_j1 or (pontuacao_j1 == pontuacao_j2 and (pontuacao_j2>=1 and pontuacao_j1>=1)):
-            turno_jogador = jogador_2
-
-        else:
-            turno_jogador = jogador_1
-
-        while True:
-            imprimir_tabuleiro(tabuleiro)
-            if turno_jogador == jogador_1:
-                print(f'Vez do jogador 1 ({jogador_1})')
-                jogada_usuario(tabuleiro, jogador_1)
-                turno_jogador = jogador_2
-
-            else:
-                print(f'Vez do jogador 2 ({jogador_2})')
-                jogada_usuario(tabuleiro, jogador_2)
-                turno_jogador = jogador_1
-
-            if verifica_vencedor(tabuleiro, jogador_1):
-                print(f'Jogador 1 ({jogador_1}) venceu!')
-                pontuacao_j1+=1
-                break
-            elif verifica_vencedor(tabuleiro, jogador_2):
-                print(f'Jogador 2 ({jogador_2}) venceu!')
-                pontuacao_j2+=1
-                break
-
-            elif verifica_velha(tabuleiro):
-                print('Deu velha. Empate!')
-                break 
+    print("*-JOGADOR Nº1-*")
+    estrutura_jogo(modo)
     
 def modo_facil(modo):
     '''
     Modo de jogo Usuário x Máquina (fácil)
     '''
-    print('*--JOGADOR USUARIO--*')
-
-    jogador_usuario = figura_escolhida_jogador()
-
-    if jogador_usuario == 'X':
-        maquina = 'O'
-    else:
-        maquina = 'X'
-
-    pontuacao_usuario = 0
-    pontuacao_maquina = 0
-
-    while (pontuacao_usuario or pontuacao_maquina) != 3:
-
-        tabuleiro = inicializar_Tabuleiro()
-        imprimir_pontuacao(modo, pontuacao_usuario, pontuacao_maquina)
-
-        if (pontuacao_maquina>pontuacao_usuario) or ((pontuacao_usuario==pontuacao_maquina) and (pontuacao_usuario>0)):
-            turno_jogador = maquina
-        else:
-            turno_jogador = jogador_usuario
-
-        while True:
-            imprimir_tabuleiro(tabuleiro)
-            #usuario joga
-            if turno_jogador == jogador_usuario:
-                print(f'Vez do Usuario ({jogador_usuario})')
-                jogada_usuario(tabuleiro, jogador_usuario)
-                turno_jogador = maquina
-
-            #maquina joga
-            else:
-                print(f'Vez da Maquina ({maquina})')
-                jogada_maquina_facil(tabuleiro, maquina)
-                turno_jogador = jogador_usuario
-
-            if verifica_vencedor(tabuleiro, jogador_usuario):
-                print(f'Usuário ({jogador_usuario} venceu!)')
-                pontuacao_usuario+=1
-                break
-
-            elif verifica_vencedor(tabuleiro, maquina):
-                print(f'Máquina ({maquina} venceu!)')
-                pontuacao_maquina+=1
-                break
-
-            elif verifica_velha(tabuleiro):
-                print('Deu velha. Empate!')
-                break     
+    print('*-USUÁRIO-*')
+    estrutura_jogo(modo)
             
 def modo_dificil(modo):
     '''
     Modo de jogo Usuário x Máquina (difícil)
     '''
-    print('*--JOGADOR USUARIO--*')
-
-    jogador_usuario = figura_escolhida_jogador()
-
-    if jogador_usuario == 'X':
-        maquina = 'O'
-    else:
-        maquina = 'X'
-
-    pontuacao_usuario = 0
-    pontuacao_maquina = 0
-
-    while (pontuacao_usuario or pontuacao_maquina) != 3:
-
-        tabuleiro = inicializar_Tabuleiro()
-        imprimir_pontuacao(modo, pontuacao_usuario, pontuacao_maquina)
-
-        if (pontuacao_maquina>pontuacao_usuario) or ((pontuacao_usuario==pontuacao_maquina) and (pontuacao_usuario>0)):
-            turno_jogador = maquina
-        else:
-            turno_jogador = jogador_usuario
-
-        while True:
-            imprimir_tabuleiro(tabuleiro)
-            #usuario joga
-            if turno_jogador == jogador_usuario:
-                print(f'Vez do Usuario ({jogador_usuario})')
-                jogada_usuario(tabuleiro, jogador_usuario)
-                turno_jogador = maquina
-
-            #maquina joga
-            else:
-                print(f'Vez da Maquina ({maquina})')
-                jogada_maquina_dificil(tabuleiro, jogador_usuario, maquina)
-                turno_jogador = jogador_usuario
-
-            if verifica_vencedor(tabuleiro, jogador_usuario):
-                print(f'Usuário ({jogador_usuario} venceu!)')
-                pontuacao_usuario+=1
-                break
-
-            elif verifica_vencedor(tabuleiro, maquina):
-                print(f'Máquina ({maquina} venceu!)')
-                pontuacao_maquina+=1
-                break
-
-            elif verifica_velha(tabuleiro):
-                print('Deu velha. Empate!')
-                break
+    print('*-USUÁRIO-*')
+    estrutura_jogo(modo)
             
 #FUNCOES AUXILIARES (NAO CONSTA NOS REQUISITOS MAS SENTI A NECESSIDADE DE CRIA-LAS)
 def figura_escolhida_jogador():
@@ -319,6 +181,76 @@ def figura_escolhida_jogador():
                 return escolha
             case _:
                 print('\nEscolha invalida')
+
+def estrutura_jogo(modo):
+    '''
+    Executa o jogo inteiro, requer o parâmetro "modo" para saber se é contra a máquina(facil), máquia(dificil) ou outro jogador.
+    '''
+    jogador_1 = figura_escolhida_jogador()
+
+    if jogador_1 == 'X':
+        jogador_2 = 'O'
+    else:
+        jogador_2 = 'X'
+
+    pontuacao_j1 = 0
+    pontuacao_j2 = 0
+
+    while (pontuacao_j1 or pontuacao_j2) != 3: #jogo continua enquanto nenhum dos dois atingir 3 pontos
+
+        tabuleiro = inicializar_Tabuleiro()
+        imprimir_pontuacao(modo, pontuacao_j1, pontuacao_j2)
+        if pontuacao_j2 > pontuacao_j1 or (pontuacao_j1 == pontuacao_j2 and (pontuacao_j2>=1 and pontuacao_j1>=1)):
+            turno_jogador = jogador_2 
+
+        else:
+            turno_jogador = jogador_1
+
+        while True:
+            imprimir_tabuleiro(tabuleiro)
+            if turno_jogador == jogador_1:
+                if modo == 1:
+                    print(f'Vez do jogador 1 ({jogador_1})')
+                else:
+                    print(f'Vez do Usuário ({jogador_1})')
+                jogada_usuario(tabuleiro, jogador_1)
+                turno_jogador = jogador_2
+
+            else:
+                if modo == 1: #jogador x jogador
+                    print(f'Vez do jogador 2 ({jogador_2})')
+                    jogada_usuario(tabuleiro, jogador_2)
+
+                elif modo == 2: #jogador x maquina (facil)
+                    print(f'Vez da Máquina ({jogador_2})')
+                    jogada_maquina_facil(tabuleiro, jogador_2)
+
+                elif modo == 3: # jogador x maquina (dificil)
+                    print(f'Vez da Máquina ({jogador_2})')
+                    jogada_maquina_dificil(tabuleiro, jogador_1, jogador_2)
+                turno_jogador = jogador_1
+
+            if verifica_vencedor(tabuleiro, jogador_1):
+                imprimir_tabuleiro(tabuleiro)
+                print(f'Jogador 1 ({jogador_1}) venceu!')
+                pontuacao_j1+=1
+                break
+            
+            elif verifica_vencedor(tabuleiro, jogador_2):
+                imprimir_tabuleiro(tabuleiro)
+
+                if modo == 1: #jogador x jogador
+                    print(f'Jogador 2 ({jogador_2}) venceu!')
+                
+                else: #jogador x máquina
+                    print(f'Máquina ({jogador_2}) venceu!')
+                pontuacao_j2+=1
+                break
+
+            elif verifica_velha(tabuleiro):
+                imprimir_tabuleiro(tabuleiro)
+                print('Deu velha. Empate!')
+                break
 
 def movimentos_validos(tabuleiro):
     '''
