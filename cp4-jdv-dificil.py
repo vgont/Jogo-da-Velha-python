@@ -91,7 +91,7 @@ def jogada_usuario(tabuleiro, jogador):
         linha = leia_coordenada_linha()
         coluna = leia_coordenada_coluna()
         posicao_validada = posicao_valida(tabuleiro, linha, coluna)
-    jogar(tabuleiro, jogador, linha, coluna)
+    jogar(tabuleiro, jogador, linha, coluna) #executa a jogada
 
 def verifica_velha(tabuleiro):
     '''
@@ -133,7 +133,7 @@ def jogada_maquina_facil(tabuleiro, maquina):
     casa = random.choice(movimentos_validos(tabuleiro))
     linha = casa[0]
     coluna = casa[1]
-    jogar(tabuleiro, maquina, linha, coluna)
+    jogar(tabuleiro, maquina, linha, coluna) #executa a jogada
 
 def jogada_maquina_dificil(tabuleiro, jogador_usuario, maquina):
     '''
@@ -142,7 +142,7 @@ def jogada_maquina_dificil(tabuleiro, jogador_usuario, maquina):
     casa = melhor_casa(tabuleiro, jogador_usuario, maquina)
     linha = casa[0]
     coluna = casa[1]
-    jogar(tabuleiro,maquina,linha,coluna)
+    jogar(tabuleiro,maquina,linha,coluna) #executa a jogada
 
 def modo_jogador(modo):
     '''
@@ -333,7 +333,7 @@ def movimentos_validos(tabuleiro):
 
 def minimax(tabuleiro, is_maximizing, jogador_usuario, maquina):
     '''
-    Função recursiva, verifica todas as probabilidades possíveis no jogo e retorna um int
+    algoritmo minimax() (recursiva), verifica todas as probabilidades possíveis no jogo e retorna um int
     '''
 
     #CONDIÇÕES DE PARADA DA RECURSÃO
@@ -347,37 +347,45 @@ def minimax(tabuleiro, is_maximizing, jogador_usuario, maquina):
     if is_maximizing: #jogada de "maximização", vez da MAQUINA jogar
         best_score = -float('inf') #numero infinito negativo
         for casa in movimentos_validos(tabuleiro): #usa a lista de movimentos validos que a função retorna para testar as casas
-            tabuleiro[casa[0]][casa[1]] = maquina #executa as possíveis jogadas sendo casa[0]-linha e casa[1]-coluna
+            tabuleiro[casa[0]][casa[1]] = maquina #executa as possíveis jogadas como maquina sendo casa[0]-linha e casa[1]-coluna
 
             #inicio da recursão, define is_maximizing como False para na proxima execução rodar a jogada do USUARIO
             score = minimax(tabuleiro, False, jogador_usuario, maquina) 
 
             tabuleiro[casa[0]][casa[1]] = ' ' #Desfaz a jogada feita
             best_score = max(best_score, score) #compara best_score com score e transforma best_score no maior valor a partir do seu retorno
-        return best_score
+        return best_score #retorna o maior valor (melhor chance de ganho para a maquina)
     
     else:#jogada de "minimização", vez do USUÁRIO jogar
         best_score = float('inf') #numero infinito positivo
         for casa in movimentos_validos(tabuleiro):
-            tabuleiro[casa[0]][casa[1]] = jogador_usuario
+            tabuleiro[casa[0]][casa[1]] = jogador_usuario #executa as possíveis jogadas como usuario
+
+            #define is_maximizing como True para na proxima execução rodar a jogada da MAQUINA
             score = minimax(tabuleiro, True, jogador_usuario, maquina)
-            tabuleiro[casa[0]][casa[1]] = ' '
+
+            tabuleiro[casa[0]][casa[1]] = ' ' #Desfaz a jogada feita
             best_score = min(best_score, score)
-        return best_score
+        return best_score #retorna o menor valor (menor chance de ganho para a maquina)
     
 def melhor_casa(tabuleiro, jogador_usuario, maquina):
-    best_score = -float('inf')
-    best_move = None
-    for casa in movimentos_validos(tabuleiro):
-        tabuleiro[casa[0]][casa[1]] = maquina
-        score = minimax(tabuleiro, False, jogador_usuario, maquina)
-        tabuleiro[casa[0]][casa[1]] = ' '
-        if score > best_score:
-            best_score = score
-            best_move = casa
-    return best_move
-#---------FIM FUNCOES AUXILIARES-------------------
+    '''
+    A partir da função minimax() descobre qual é o melhor movimento (conjunto de linha e coluna) para a maquina fazer, retorna uma tupla contendo a linha e a coluna a serem jogadas
+    '''
+    best_score = -float('inf') #best_score começa com o menor numero possivel (infinito negativo)
+    best_move = None #best_move começa sem nenhum valor
+    for casa in movimentos_validos(tabuleiro): #percorre a lista de tuplas que contém os movimentos validos no tabuleiro
+        tabuleiro[casa[0]][casa[1]] = maquina #executa a jogada como maquina
 
+        #chama a função maquina para calcular as possibilidades das jogadas seguintes, começa em False para calcular a proxima jogada do usuario
+        score = minimax(tabuleiro, False, jogador_usuario, maquina) 
+
+        tabuleiro[casa[0]][casa[1]] = ' ' #desfaz a jogada
+        if score > best_score: 
+            best_score = score #atribui o score como "best_score"
+            best_move = casa
+    return best_move #retorna uma tupla com a linha e coluna
+#---------FIM FUNCOES AUXILIARES-------------------
 
 def main():
     while True:
