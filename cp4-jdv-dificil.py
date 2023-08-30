@@ -286,7 +286,7 @@ def modo_dificil(modo):
             #maquina joga
             else:
                 print(f'Vez da Maquina ({maquina})')
-                jogada_maquina_dificil(tabuleiro, maquina)
+                jogada_maquina_dificil(tabuleiro, jogador_usuario, maquina)
                 turno_jogador = jogador_usuario
 
             if verifica_vencedor(tabuleiro, jogador_usuario):
